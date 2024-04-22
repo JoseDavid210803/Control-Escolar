@@ -1,4 +1,5 @@
 # main ejecutable
+# los print() son únicamente para visualizar la ejecución del código y localizar errores
 
 # Para iniciar, se necesita tener instalados:
 # python -m pip install mysql-connector-python

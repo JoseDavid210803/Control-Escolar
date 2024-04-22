@@ -25,16 +25,16 @@ class LoginFunc():
             messagebox.showerror("Error", f"Error en conectar la BD: {e}")
 
 
-    def verificar_login(self, usuario, contrasena):
-        self.cursor.execute("SELECT nombre, perfil FROM usuarios WHERE BINARY username = %s AND BINARY contraseña = %s AND status = 'Activo'", (usuario, contrasena))  # Binary es para que sea sensible a mayus y minus
+    def verificar_login(self, correo, contrasena):
+        self.cursor.execute("SELECT * FROM usuarios WHERE BINARY correo = %s AND BINARY contraseña = %s AND status = 'Activo'", (correo, contrasena))  # Binary es para que sea sensible a mayus y minus
 
         user_data = self.cursor.fetchone() # Regresar tupla de datos
 
-        print(user_data)
-
         if user_data: 
-            print("Login true")
-            return True
+            print(f"Login user:   {user_data[1]} {user_data[2]} {user_data[3]} \nuser profile: {user_data[7]}\nuser status:  {user_data[8]}")
+            # Regresa todos los valores de un usuario en la forma
+            # [0]=id  [1]=nombre  [2]=paterno  [3]=materno  [4]=correo  [5]=username  [6]=contraseña  [7]=perfil  [8]=status 	
+            return user_data
         else: 
-            print("Login false")
-            return False
+            print("Login fail!")
+            return None
