@@ -26,7 +26,7 @@ class LoginFunc():
 
 
     def verificar_login(self, correo, contrasena):
-        self.cursor.execute("SELECT * FROM usuarios WHERE BINARY correo = %s AND BINARY contraseña = %s", (correo, contrasena))  # Binary es para que sea sensible a mayus y minus
+        self.cursor.execute("SELECT * FROM usuarios WHERE BINARY correo = %s AND BINARY contrasena = %s", (correo, contrasena))  # Binary es para que sea sensible a mayus y minus
 
         user_data = self.cursor.fetchone() # Regresar tupla de datos
 

@@ -31,13 +31,18 @@ class UsuariosFunc():
         if not self.verifica_correo(correo):
             insert_user = ("""
             INSERT INTO 
-                usuarios
+                usuarios 
                     (nombre, a_paterno, a_materno, correo, usuario, contrasena, perfil, status) 
             VALUES 
-                ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
-            """, (nombre, a_paterno, a_materno, correo, usuario, contrasena, perfil, status)) 
+                (%s, %s, %s, %s, %s, %s, %s, %s)
+            """)
+            
+            values = (nombre, a_paterno, a_materno, correo, usuario, contrasena, perfil, status)
 
-            self.cursor.execute(insert_user)
+            self.cursor.execute(insert_user, values)
+
+            # Guarda los cambios en la base de datos
+            self.connection.commit()
 
         else:
             messagebox.showwarning("Error","El correo ya está registrado!")
@@ -48,57 +53,62 @@ class UsuariosFunc():
     def editarUsuario(self, id, nombre, a_paterno, a_materno, correo, usuario, contrasena, perfil, status):
         # Edita todos los atributos del usuario que tenga el id "key"
 
-        if not self.verifica_correo(correo):
-            editar_usuario = ("""
-                UPDATE
-                    usuarios
-                SET
-                    nombre = %s,
-                    a_paterno = %s,
-                    a_materno = %s,
-                    correo = %s,
-                    usuario = %s,
-                    contrasena = %s,
-                    perfil = %s,
-                    status = %s
-                WHERE
-                    id = %d
-            """,(nombre, a_paterno, a_materno, correo, usuario, contrasena, perfil, status, id))
+        editar_usuario = ("""
+            UPDATE
+                usuarios
+            SET
+                nombre = %s,
+                a_paterno = %s,
+                a_materno = %s,
+                correo = %s,
+                usuario = %s,
+                contrasena = %s,
+                perfil = %s,
+                status = %s
+            WHERE
+                id = %s
+        """)
+        values = (nombre, a_paterno, a_materno, correo, usuario, contrasena, perfil, status, id)
 
-            self.cursor.execute(editar_usuario)
-
-            # Regresa el usuario editado 
-            return self.buscarIdUsuario(id)
-        else:
-            messagebox.showwarning("Error","El correo ya está registrado!")
+        self.cursor.execute(editar_usuario, values)
+        
+        # Guarda los cambios en la base de datos
+        self.connection.commit()
     
 
     # Eliminar usuario PERMANENTEMENTE
     # (es de apoyo pero en el código no se necesitará)
     def eliminarUsuario(self, id):
-        eliminar_usuario = "DELETE FROM usuarios WHERE id = %d"
+        eliminar_usuario = "DELETE FROM usuarios WHERE id = %s"
 
         self.cursor.execute(eliminar_usuario, id)
+        
+        # Guarda los cambios en la base de datos
+        self.connection.commit()
 
 
     # "Elimina" al usuario (lo deja inactivo) dejando sus datos
-    def inactivarUsuario(self, id):
-        inactivar_usuario = ("""
+    def desactivarUsuario(self, id):
+        desactivar_usuario = ("""
             UPDATE
                 usuarios
             SET
                 status = 'Inactivo'
             WHERE
-                id = %d
-        """, id)
+                id = %s
+        """)
+        values = (id,)
 
-        self.cursor.execute(inactivar_usuario)
+        self.cursor.execute(desactivar_usuario, values)
+        
+        # Guarda los cambios en la base de datos
+        self.connection.commit()
 
 
     # Busca un usuario por su id
     def buscarIdUsuario(self, id):
         try:
-            buscar_usuario = ("SELECT * FROM usuarios WHERE id = %d", id)
+            buscar_usuario = (f"SELECT * FROM usuarios WHERE id = {id}")
             self.cursor.execute(buscar_usuario)
             found_user = self.cursor.fetchone()
 
@@ -111,7 +121,7 @@ class UsuariosFunc():
 
     # Mostrar lista de usuarios
     def getListaUsuarios(self):
-        show_user = "SELECT * FROM users"
+        show_user = "SELECT * FROM usuarios"
         list_users = []
         list_users = self.cursor.fetchall(show_user)
 
@@ -122,20 +132,15 @@ class UsuariosFunc():
     
     # Verificar si existe el correo
     def verifica_correo(self, correo):
-        # Busca correos "parecidos" al ingresado por si ya está repetido
-        self.cursor.execute("SELECT * FROM usuarios WHERE correo LIKE %s", (correo))
-        usuario_existe = self.cursor.fetchone()
-        
-        if usuario_existe: 
-            return True
-        else: 
-            return False
-        
-    
-    # Último id ingresado (no necesario, sólo si se necesita)
+        # Busca correos parecidos al ingresado por si ya está repetido
+        self.cursor.execute("SELECT * FROM usuarios WHERE correo = %s", (correo,))
+        return self.cursor.fetchone() is not None
+
+
+    # Último id ingresado (Para la hora de agregar un nuevo)
     def getUltimoId(self):
-        command = "SELECT MAX(id) FROM usuarios"
-        result = self.cursor.fetchall(command)[0]
+        self.cursor.execute("SELECT MAX(id) FROM usuarios")
+        result = self.cursor.fetchall()[0]
         
         if result[0] is not None:
             return result[0]
