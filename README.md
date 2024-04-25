@@ -1,3 +1,8 @@
+PARA COMENZAR:
+Crear una base de datos vacía de nombre "control"
+Importar el archivo .sql a la base de datos
+
+
 Links de proyecto:
 
 Repositorio de GitHub: https://github.com/JoseDavid210803/Control-Escolar
