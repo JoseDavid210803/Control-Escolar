@@ -29,6 +29,6 @@ class DB():
             print(f"Error en conectar la BD: {e}")
 
     
-    # Manejo del cursor para utilizarlo desde cualquier archivo
-    def getCursor(self):
-        return self.cursor
+    # Manejo del connection para utilizarlo desde cualquier archivo
+    def getConnection(self):
+        return self.connection

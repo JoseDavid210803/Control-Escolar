@@ -130,7 +130,7 @@ CREATE TABLE `usuarios` (
   `correo` varchar(255) NOT NULL,
   `usuario` varchar(15) NOT NULL,
   `contrasena` varchar(15) NOT NULL,
-  `perfil` set('Alumnos','Maestro','Administrador','') NOT NULL,
+  `perfil` set('Alumno','Maestro','Administrador','') NOT NULL,
   `status` set('Activo','Inactivo') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -139,7 +139,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `a_paterno`, `a_materno`, `correo`, `usuario`, `contrasena`, `perfil`, `status`) VALUES
-(0, 'Ejemplo', 'Gómez', 'Rodríguez', 'ejemplo@gmail.com', 'Ejemplo123', 'Pw123', 'Administrador', 'Activo');
+(1, 'Ejemplo', 'Gómez', 'Rodríguez', 'ejemplo@gmail.com', 'Ejemplo123', 'Pw123', 'Administrador', 'Activo'),
+(2, 'Alumno', 'Jiménez', 'Robles', 'alumno@gmail.com', 'Alumno123', 'Pw123', 'Alumno', 'Activo'),
+(3, 'Maestro', 'García', 'Gómez', 'maestro@gmail.com', 'Maestro123', 'Pw123', 'Maestro', 'Activo');
 
 --
 -- Disparadores `usuarios`
@@ -231,6 +233,12 @@ ALTER TABLE `alumnos`
 --
 ALTER TABLE `grupos`
   MODIFY `id_grupos` int(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas

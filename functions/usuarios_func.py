@@ -12,8 +12,9 @@ class UsuariosFunc():
     def __init__(self):
         # La declaración de la base de datos        
         self.db = DB()
-        # Manejo del cursor() desde archivo externo
-        self.cursor = self.db.getCursor()
+        # Manejo del connection y cursor() desde archivo externo
+        self.connection = self.db.getConnection()
+        self.cursor = self.connection.cursor()
     
 
     # Creación de usuario, se usará como "Guardar" en el programa
