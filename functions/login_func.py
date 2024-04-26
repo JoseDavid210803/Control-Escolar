@@ -2,27 +2,17 @@
 from mysql.connector import connect, Error
 from tkinter import messagebox
 
+# Archivo de donde se abre la base de datos
+from database.db_manager import DB
+
 
 class LoginFunc():
     # Instancias para la verificación y el usuario
-    def __init__(self):        
-        # Conexión a la base de datos "control" en MySQL
-        try:
-            self.connection = connect(
-                host="localhost",
-                user="root",
-                password="",
-                database="control"
-            )
-
-            print("connected: ", self.connection)
-
-            # Cursor para manipular funciones 
-            self.cursor = self.connection.cursor()
-            
-        # Verificación de conexión
-        except Error as e:
-            messagebox.showerror("Error", f"Error en conectar la BD: {e}")
+    def __init__(self):
+        # La declaración de la base de datos        
+        self.db = DB()
+        # Manejo del cursor() desde archivo externo
+        self.cursor = self.db.getCursor()
 
 
     def verificar_login(self, correo, contrasena):
