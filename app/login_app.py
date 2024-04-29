@@ -9,19 +9,22 @@ from app.home_app import AppHome
 class AppLogin(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Inicio de Sesión")
+        self.title("Control Escolar")
         self.geometry("540x290")
+        self.resizable(0, 0)
         self.create_widgets()
+        self.iconbitmap(r"C:\Users\sofia\Desktop\Control Escolar\img\01.ico")
+
 
         self.login = LoginFunc()
         
 
     def create_widgets(self):    
         self.lbltitulo = tk.Label(self, text="CONTROL ESCOLAR", font=("Arial", 32, "bold"))
-        self.lbltitulo.place(x=50, y=10)
+        self.lbltitulo.place(x=50, y=15)
 
         self.lblcorreo = tk.Label(self, text="Correo:", font=("Arial", 12))
-        self.lblcorreo.place(x=100, y=100)
+        self.lblcorreo.place(x=75, y=100)
 
         self.txcorreo = tk.Entry(self)
         self.txcorreo.place(x=170, y=103)
@@ -37,8 +40,12 @@ class AppLogin(tk.Tk):
         self.btnLogin = tk.Button(self, 
                                   text="Iniciar Sesión", 
                                   command=self.abrir_app)
-        self.btnLogin.place(x=240, y=180)
+        self.btnLogin.place(x=200, y=200)
         self.btnLogin.config(font=("Arial", 12))
+        
+        self.Registrarse = tk.Label(self, text="¿No estás registrado? Registrate aquí", fg="blue", cursor="hand2")
+        self.Registrarse.place(x=155, y=240)
+        self.Registrarse.bind("<Button-1>", lambda e: self.registro_app())
         
 
     def abrir_app(self):
@@ -56,6 +63,18 @@ class AppLogin(tk.Tk):
         else:
             messagebox.showerror("Inicio de Sesión", "Credenciales incorrectas.")
 
+    def registro_app(self):
+        self.registroVentana = tk.Toplevel(self)
+        self.registroVentana.title("Registrar Usuario")
+        self.registroVentana.geometry("600x350")
+        self.registroVentana.resizable(0, 0)
+        
+        self.Titlo = tk.Label(self.registroVentana, text="REGISTRO DE USUARIOS").grid(row=0, column=0, columnspan=4, padx=10, pady=20, sticky="n")
+
+        
+        
+
+        
 
 if __name__ == "__main__":
     login = AppLogin()
