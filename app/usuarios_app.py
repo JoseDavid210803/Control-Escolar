@@ -224,8 +224,6 @@ class AppUsers(tk.Tk):
                 self.cbPerfiles.get(), 
                 self.cbStatus.get()
             ) 
-            messagebox.showinfo("Creado",f"El usuario ha sido creado")
-            self.cancelarUsuario()
 
         # si el botón dice guardar, lo edita
         elif self.btnGuardarUsuario.cget("text") == "Guardar":
@@ -336,5 +334,5 @@ class AppUsers(tk.Tk):
 
 
 if __name__ == "__main__":
-    usuarios = AppUsers("example@gmail.com", "Administrador")
+    usuarios = AppUsers("andre@gmail.com", "Administrador")
     usuarios.mainloop()
