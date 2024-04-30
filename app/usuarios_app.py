@@ -87,9 +87,9 @@ class AppUsers(tk.Tk):
 
 
         # Boton Salir
-        self.btnSalir=tk.Button(self,text="Salir", 
-                               command=self.salir)
-        self.btnSalir.place(x=0,y=0)
+        #self.btnSalir=tk.Button(self,text="Salir", 
+        #                       command=self.salir)
+        #self.btnSalir.place(x=0,y=0)
         
         # Boton Buscar
         self.btnBuscarUsuario=tk.Button(self,text="Buscar", 

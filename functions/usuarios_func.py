@@ -2,6 +2,8 @@
 from mysql.connector import connect, Error
 from tkinter import messagebox
 
+import re
+
 # Archivo de donde se abre la base de datos
 from database.db_manager import DB
 
@@ -138,3 +140,28 @@ class UsuariosFunc():
             return result[0]
         else:
             return 0
+        
+        
+    def validarContrasena(self, contrasena):
+        # Verificar si la contraseña tiene al menos 8 caracteres
+        if len(contrasena) < 8:
+            messagebox.showwarning("Error","Contraseña debe de ser mayor a 8 dígitos!")
+            return False
+        
+        # Verificar si la contraseña tiene al menos una mayúscula
+        if not re.search(r"[A-Z]", contrasena):
+            messagebox.showwarning("Error","Contraseña Debe de tener como mínimo una mayúscula!")
+            return False
+        
+        # Verificar si la contraseña tiene al menos un carácter especial
+        if not re.search(r"[!@#$%^&*()\-_=+{};:,]", contrasena):
+            messagebox.showwarning("Error","Contraseña debe de tener un carácter especial!")
+            return False
+        
+        # Verificar si la contraseña tiene al menos un número
+        if not re.search(r"\d", contrasena):
+            messagebox.showwarning("Error","Contraseña debe de contener mínimo un número!")
+            return False
+        
+        
+        return True
