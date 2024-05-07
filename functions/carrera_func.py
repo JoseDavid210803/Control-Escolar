@@ -81,15 +81,14 @@ class CarrerasFunc():
 
 
     # Mostrar lista de carreras
+    # Mostrar lista de carreras
     def getListaCarreras(self):
         mostrar_carreras = "SELECT * FROM carrera"
         lista_carreras = []
-        lista_carreras = self.cursor.fetchall(mostrar_carreras)
-
-        # Se regresa como matriz de carreras [m][n] donde 
-            # m = carreras registradas
-            # n = atributos ([0]=id_carrera, [1]=nombre, [2]=semestre)
+        self.cursor.execute(mostrar_carreras)  # Ejecutar la consulta
+        lista_carreras = self.cursor.fetchall()  # Obtener todas las filas
         return lista_carreras
+
     
 
 
