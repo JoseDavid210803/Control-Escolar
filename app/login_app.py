@@ -1,5 +1,3 @@
-# pantalla de login
-
 import tkinter as tk
 from tkinter import messagebox
 
@@ -14,7 +12,6 @@ class AppLogin(tk.Tk):
         self.resizable(0, 0)
         self.create_widgets()
         self.iconbitmap(r"C:\Users\sofia\Desktop\Control Escolar\img\01.ico")
-
 
         self.login = LoginFunc()
         
@@ -55,7 +52,6 @@ class AppLogin(tk.Tk):
         usuario = self.login.verificar_login(correo, contrasena)
 
         if usuario:
-            messagebox.showinfo("Inicio de Sesión", "Inicio de sesión exitoso.")
             self.destroy()  # Cerrar la ventana de inicio de sesión
             home = AppHome(usuario[5])  # Pasar el argumento 'usuario' a la inicialización de la ventana
             home.mainloop()  # Iniciar el bucle de eventos de la ventana
@@ -65,16 +61,9 @@ class AppLogin(tk.Tk):
 
     def registro_app(self):
         self.registroVentana = tk.Toplevel(self)
-        self.registroVentana.title("Registrar Usuario")
-        self.registroVentana.geometry("600x350")
-        self.registroVentana.resizable(0, 0)
-        
-        self.Titlo = tk.Label(self.registroVentana, text="REGISTRO DE USUARIOS").grid(row=0, column=0, columnspan=4, padx=10, pady=20, sticky="n")
-
-        
-        
-
-        
+        from app.registro_app import AppRegistro
+        registro = AppRegistro(self.registroVentana)
+        registro.grid(row=0, column=0, padx=10, pady=10)
 
 if __name__ == "__main__":
     login = AppLogin()
