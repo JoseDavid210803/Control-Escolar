@@ -88,7 +88,8 @@ class GruposFunc():
     def getListaGrupos(self):
         mostrar_grupos = "SELECT * FROM grupos"
         lista_grupos = []
-        lista_grupos = self.cursor.fetchall(mostrar_grupos)
+        self.cursor.execute(mostrar_grupos)
+        lista_grupos = self.cursor.fetchall()
 
         # Se regresa como matriz de grupos [m][n] donde 
             # m = grupos registrados
