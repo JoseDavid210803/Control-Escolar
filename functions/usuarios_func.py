@@ -46,7 +46,6 @@ class UsuariosFunc():
     # Editar usuario
     def editarUsuario(self, id, nombre, a_paterno, a_materno, correo, usuario, contrasena, perfil, status):
         # Edita todos los atributos del usuario que tenga el id "key"
-
         editar_usuario = ("""
             UPDATE
                 usuarios
