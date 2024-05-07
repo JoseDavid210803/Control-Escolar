@@ -1,152 +1,114 @@
 import tkinter as tk
-from tkinter import END, messagebox, ttk
+from tkinter import END, messagebox, ttk, font
 from functions.usuarios_func import UsuariosFunc
+import re
 
-
-class AppUsers(tk.Tk):
-    # Constructor y ventana de usuarios
-    def __init__(self, correo, perfil):
-        super().__init__()
-        self.width = 550
-        self.height = 550
-        self.title("Control Escolar")
-        self.geometry(f"{self.width}x{self.height}")
+class AppUsers(tk.Frame):
+    def __init__(self, master, correo, perfil):
+        super().__init__(master)
+        self.master = master
         self.usuario = UsuariosFunc()
-
         self.correo = correo
         self.perfil = perfil
-        casilla_width = 30
+        self.create_widgets()
 
-        print("App users")
-        
+    def create_widgets(self):
+        self.width = 550
+        self.height = 550
 
-# APLICACIÓN (demo, sólo para verificar funcionamiento) ----------------------------------
+        tk.Label(self, text="USUARIOS", font=("Arial", 20)).grid(row=0, column=0, columnspan=4, pady=10, sticky="w")
 
-        # Casilla buscar usuario
-        tk.Label(self,text="ID Usuario:").pack()
-        self.txBuscarUsuario=tk.Entry(self, width=20)
-        self.txBuscarUsuario.pack()
-        
-        # Texto id 
-        tk.Label(self,text="ID:").pack()
-        self.txIdUsuario=tk.Label(self)
-        self.txIdUsuario.pack()
-        
-        # Casilla nombre 
-        tk.Label(self,text="Nombre:").pack()
-        self.txNombreUsuario=tk.Entry(self, width=casilla_width)
-        self.txNombreUsuario.pack()
+        tk.Label(self, text="ID Usuario:").grid(row=1, column=1)
+        self.txBuscarUsuario = tk.Entry(self, width=20)
+        self.txBuscarUsuario.grid(row=1, column=2)
+        self.btnBuscarUsuario = tk.Button(self, text="Buscar", command=self.buscarUsuario, width=10)
+        self.btnBuscarUsuario.grid(row=1, column=3, padx=10, pady=5)
+
+        tk.Label(self, text="ID:").grid(row=2, column=0, padx=40, pady=5, sticky="w")
+        self.txIdUsuario = tk.Entry(self, width=20)
+        self.txIdUsuario.grid(row=2, column=1)
+        self.txIdUsuario.config(state="disabled")
+
+        tk.Label(self, text="Nombre:").grid(row=3, column=0, padx=40, pady=5, sticky="w")
+        self.txNombreUsuario = tk.Entry(self, width=20)
+        self.txNombreUsuario.grid(row=3, column=1)
         self.txNombreUsuario.config(state="disabled")
-        
-        # Casilla apellido paterno
-        tk.Label(self,text="Apellido Paterno:").pack()
-        self.txAPaterno=tk.Entry(self, width=casilla_width)
-        self.txAPaterno.pack()
+
+        tk.Label(self, text="Apellido Paterno:").grid(row=4, column=0, padx=40, pady=5, sticky="w")
+        self.txAPaterno = tk.Entry(self, width=20)
+        self.txAPaterno.grid(row=4, column=1)
         self.txAPaterno.config(state="disabled")
-        
-        # Casilla apellido materno
-        tk.Label(self,text="Apellido Materno:").pack()
-        self.txAMaterno=tk.Entry(self, width=casilla_width)
-        self.txAMaterno.pack()
+
+        tk.Label(self, text="Apellido Materno:").grid(row=5, column=0, padx=40, pady=5, sticky="w")
+        self.txAMaterno = tk.Entry(self, width=20)
+        self.txAMaterno.grid(row=5, column=1)
         self.txAMaterno.config(state="disabled")
-        
-        # Casilla correo
-        tk.Label(self,text="Correo:").pack()
-        self.txCorreo=tk.Entry(self, width=casilla_width)
-        self.txCorreo.pack()
+
+        tk.Label(self, text="Correo:").grid(row=6, column=0, padx=40, pady=5, sticky="w")
+        self.txCorreo = tk.Entry(self, width=20)
+        self.txCorreo.grid(row=6, column=1)
         self.txCorreo.config(state="disabled")
 
-        # Casilla usuario
-        tk.Label(self,text="Usuario:").pack()
-        self.txUsuario=tk.Entry(self, width=casilla_width)
-        self.txUsuario.pack()
+        tk.Label(self, text="Usuario:").grid(row=2, column=2, padx=40, pady=5, sticky="w")
+        self.txUsuario = tk.Entry(self, width=20)
+        self.txUsuario.grid(row=2, column=3)
         self.txUsuario.config(state="disabled")
 
-        # Casilla contrasena
-        tk.Label(self,text="Contraseña:").pack()
-        self.txContrasena=tk.Entry(self, width=casilla_width, show='*')
-        self.txContrasena.pack()
+        tk.Label(self, text="Contraseña:").grid(row=3, column=2, padx=40, pady=5, sticky="w")
+        self.txContrasena = tk.Entry(self, width=20, show='*')
+        self.txContrasena.grid(row=3, column=3)
         self.txContrasena.config(state="disabled")
 
         profiles_values = ["Maestro", "Alumno"]
         if self.perfil == "Administrador":
             profiles_values.append("Administrador")
 
-        # Casilla perfil
-        tk.Label(self,text="Perfil:").pack()
-        self.cbPerfiles=ttk.Combobox(self, width=casilla_width-3, values=profiles_values)
-        self.cbPerfiles.pack()
+        tk.Label(self, text="Perfil:").grid(row=4, column=2, padx=40, pady=5, sticky="w")
+        self.cbPerfiles = ttk.Combobox(self, width=20-3, values=profiles_values)
+        self.cbPerfiles.grid(row=4, column=3)
         self.cbPerfiles.config(state="disabled")
-        
-        # Casilla status
-        tk.Label(self,text="Status:").pack()
-        self.cbStatus=ttk.Combobox(self, width=casilla_width-3, values=["Activo", "Inactivo"])
-        self.cbStatus.pack()
+
+        tk.Label(self, text="Status:").grid(row=5, column=2, padx=40, pady=5, sticky="w")
+        self.cbStatus = ttk.Combobox(self, width=20-3, values=["Activo", "Inactivo"])
+        self.cbStatus.grid(row=5, column=3)
         self.cbStatus.config(state="disabled")
 
+        button_width = 10
+        padx_between_buttons = 5
 
+        self.btnNuevoUsuario = tk.Button(self, text="Nuevo", width=button_width, command=self.nuevoUsuario)
+        self.btnNuevoUsuario.grid(row=11, column=0, padx=(40, padx_between_buttons), pady=5, sticky="ew")
 
-        # Boton Salir
-        #self.btnSalir=tk.Button(self,text="Salir", 
-        #                       command=self.salir)
-        #self.btnSalir.place(x=0,y=0)
-        
-        # Boton Buscar
-        self.btnBuscarUsuario=tk.Button(self,text="Buscar", 
-                                     command=self.buscarUsuario)
-        self.btnBuscarUsuario.place(x=340,y=5)
-        
-        # Nuevo cliente
-        self.btnNuevoUsuario=tk.Button(self,text="Nuevo", 
-                                  width=8, 
-                                  command=self.nuevoUsuario)
-        self.btnNuevoUsuario.config(state="normal")
-        self.btnNuevoUsuario.place(x=70,y=440)
+        self.btnGuardarUsuario = tk.Button(self, text="Guardar", width=button_width, command=lambda: self.handle_error_window("Guardar"))
+        self.btnGuardarUsuario.grid(row=11, column=1, padx=padx_between_buttons, pady=5, sticky="ew")
 
-        # Guardar
-        self.btnGuardarUsuario=tk.Button(self,text="Crear", 
-                                   width=8, 
-                                   command=lambda: self.handle_error_window("Guardar"))
-        self.btnGuardarUsuario.config(state="disabled")
-        self.btnGuardarUsuario.place(x=150,y=440)
+        self.btnCancelarUsuario = tk.Button(self, text="Cancelar", width=button_width, command=self.cancelarUsuario)
+        self.btnCancelarUsuario.grid(row=11, column=2, padx=padx_between_buttons, pady=5, sticky="ew")
 
-        # Cancelar
-        self.btnCancelarUsuario=tk.Button(self,text="Cancelar", 
-                                     width=8, 
-                                     command=self.cancelarUsuario)
-        self.btnCancelarUsuario.config(state="disabled")
-        self.btnCancelarUsuario.place(x=230,y=440)
+        self.btnEditarUsuario = tk.Button(self, text="Editar", width=button_width, command=self.editarUsuario)
+        self.btnEditarUsuario.grid(row=11, column=3, padx=padx_between_buttons, pady=5, sticky="ew")
 
-        # Editar
-        self.btnEditarUsuario=tk.Button(self,text="Editar", 
-                                   width=8, 
-                                   command=self.editarUsuario)
-        self.btnEditarUsuario.config(state="disabled")
-        self.btnEditarUsuario.place(x=310,y=440)
-        
-        
-        if self.perfil == "Administrador":
-            # Eliminar
-            self.btnEliminarUsuario=tk.Button(self,text="Eliminar", 
-                                        width=8, 
-                                        command=self.deleteUser)
+        self.btnEliminarUsuario = tk.Button(self, text="Eliminar", width=button_width, command=self.deleteUser)
+        self.btnEliminarUsuario.grid(row=11, column=4, padx=padx_between_buttons, pady=5, sticky="ew")
+
+        if self.perfil != "Administrador":
             self.btnEliminarUsuario.config(state="disabled")
-            self.btnEliminarUsuario.place(x=390,y=440)
-
-
-
-
-
-# FUNCIONES ----------------------------------------------------------------------
+        
+        if self.perfil == "Alumno":
+            self.btnNuevoUsuario.config(state="disabled")
+            self.btnGuardarUsuario.config(state="disabled")
+            self.btnEditarUsuario.config(state="disabled")
+            self.btnEliminarUsuario.config(state="disabled")
+        elif self.perfil == "Maestro":
+            self.btnBuscarUsuario.config(state="normal")
+        else:
+            pass
+            
+        self.mostrarProximoID()
 
     def salir(self):
-        # No funciona en caso de utilizar menú despegable, esto es en caso de que se usaran ventanas individuales por cada pantalla
-        print("Salir")
-        import app.home_app
-        app.home_app.AppHome(self.correo)
-        self.destroy()
+        self.master.destroy()
 
-    # Función del botón Buscar Usuario 
     def buscarUsuario(self):
         id = self.txBuscarUsuario.get()
         result = self.usuario.buscarIdUsuario(id)
@@ -154,14 +116,17 @@ class AppUsers(tk.Tk):
         print(f"Buscar usuario: <ID: {id}>")
         if result:
             print(result)
-            # [0]=id, [1]=nombre, [2]=a_paterno, [3]=a_materno, [4]=correo, [5]=usuario, [6]=contrasena, [7]=perfil, [8]=status
             self.cleanUser()
             self.actUser()
 
             perfil_str = ', '.join(result[7])
             status_str = ', '.join(result[8])
 
-            self.txIdUsuario.config(text=result[0])
+            self.txIdUsuario.config(state="normal")
+            self.txIdUsuario.delete(0, END)
+            self.txIdUsuario.insert(0, result[0])
+            self.txIdUsuario.config(state="readonly")
+
             self.txNombreUsuario.insert(0, result[1])
             self.txAPaterno.insert(0, result[2])
             self.txAMaterno.insert(0, result[3])
@@ -187,15 +152,14 @@ class AppUsers(tk.Tk):
             print(result)
             messagebox.showwarning("Error", "No existe usuario con ese ID")
 
-    # función nuevo usuario
-    # solamente activa casillas y botones, no agrega nada
+
     def nuevoUsuario(self):
         print("Nuevo usuario")
 
         self.cleanUser()
         self.txBuscarUsuario.delete(0, END)
         self.actUser()
-
+        self.txIdUsuario.config(state="normal")
         self.txIdUsuario.config(text= self.usuario.getUltimoId()+1)
 
         self.btnBuscarUsuario.config(state="disabled")
@@ -207,51 +171,76 @@ class AppUsers(tk.Tk):
         if self.perfil == "Administrador":
             self.btnEliminarUsuario.config(state="disabled")
 
+    def contrasenaSegura(self, contraseña):
+        return len(contraseña) >= 8 and \
+               any(c.isupper() for c in contraseña) and \
+               any(c.islower() for c in contraseña) and \
+               any(c.isdigit() for c in contraseña)
 
-    # función guardar usuario
+    def correoValido(self, correo):
+        return re.match(r"[^@]+@[^@]+\.[^@]+", correo)
+
     def guardarUsuario(self):
-        
-        # si el botón dice crear, crea un usuario
         if self.btnGuardarUsuario.cget("text") == "Crear":
             print("Crear usuario")
+            if not self.validarCampos():
+                return
+            if not self.contrasenaSegura(self.txContrasena.get()):
+                messagebox.showwarning("Error", "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.")
+                return
+            if not self.correoValido(self.txCorreo.get()):
+                messagebox.showwarning("Error", "El correo electrónico ingresado no es válido.")
+                return
             self.usuario.nuevoUsuario(
-                self.txNombreUsuario.get(), 
-                self.txAPaterno.get(), 
-                self.txAMaterno.get(), 
-                self.txCorreo.get(), 
-                self.txUsuario.get(), 
-                self.txContrasena.get(), 
-                self.cbPerfiles.get(), 
+                self.txNombreUsuario.get(),
+                self.txAPaterno.get(),
+                self.txAMaterno.get(),
+                self.txCorreo.get(),
+                self.txUsuario.get(),
+                self.txContrasena.get(),
+                self.cbPerfiles.get(),
                 self.cbStatus.get()
-            ) 
+            )
 
-        # si el botón dice guardar, lo edita
         elif self.btnGuardarUsuario.cget("text") == "Guardar":
             print("Guardar usuario")
             usuario_id = self.txIdUsuario.cget("text")
             try:
+                if not self.validarCampos():
+                    return
+                if not self.correoValido(self.txCorreo.get()):
+                    messagebox.showwarning("Error", "El correo electrónico ingresado no es válido.")
+                    return
                 self.usuario.editarUsuario(
-                    usuario_id, 
-                    self.txNombreUsuario.get(), 
-                    self.txAPaterno.get(), 
-                    self.txAMaterno.get(), 
-                    self.txCorreo.get(), 
-                    self.txUsuario.get(), 
-                    self.txContrasena.get(), 
-                    self.cbPerfiles.get(), 
+                    usuario_id,
+                    self.txNombreUsuario.get(),
+                    self.txAPaterno.get(),
+                    self.txAMaterno.get(),
+                    self.txCorreo.get(),
+                    self.txUsuario.get(),
+                    self.txContrasena.get(),
+                    self.cbPerfiles.get(),
                     self.cbStatus.get()
-                ) 
-                # se regresa el botón al modo "crear"
+                )
                 self.btnGuardarUsuario.config(text="Crear")
-                messagebox.showinfo("Editado",f"El usuario con ID: {usuario_id} ha sido editado")
+                messagebox.showinfo("Editado", f"El usuario con ID: {usuario_id} ha sido editado")
                 self.deactUser()
             except:
                 pass
 
+    def validarCampos(self):
+        if not self.txNombreUsuario.get() or not self.txAPaterno.get() or not self.txAMaterno.get() or not self.txCorreo.get() or not self.txUsuario.get() or not self.txContrasena.get() or not self.cbPerfiles.get() or not self.cbStatus.get():
+            messagebox.showwarning("Error", "Favor de llenar todos los campos")
+            return False
+        return True
+
     def cancelarUsuario(self):
         print("Cancelar usuario")
-        
+
         self.cleanUser()
+        self.txIdUsuario.config(state="normal")
+        self.txIdUsuario.delete(0, END)
+        self.txIdUsuario.config(state="disabled")
         self.btnCancelarUsuario.config(state="disabled")
         self.btnGuardarUsuario.config(state="disabled")
         self.btnEditarUsuario.config(state="disabled")
@@ -264,7 +253,7 @@ class AppUsers(tk.Tk):
 
     def editarUsuario(self):
         print("Editar usuario")
-        
+
         self.actUser()
         if self.correo != self.txCorreo.get():
             self.txContrasena.config(state="disabled")
@@ -275,7 +264,7 @@ class AppUsers(tk.Tk):
         self.btnGuardarUsuario.config(state="normal")
         self.btnGuardarUsuario.config(text="Guardar")
 
-    def deleteUser(self):        
+    def deleteUser(self):
         yesno = messagebox.askyesno("Warning","¿Desea desactivar este usuario?")
         if yesno:
             print("Eliminar usuario")
@@ -284,9 +273,7 @@ class AppUsers(tk.Tk):
             messagebox.showinfo("Desactivado", f"El usuario {user} ha sido desactivado")
             self.cancelarUsuario()
 
-
-    
-    def cleanUser(self):        
+    def cleanUser(self):
         self.actUser()
         self.txIdUsuario.config(text="")
         self.txNombreUsuario.delete(0, END)
@@ -298,8 +285,8 @@ class AppUsers(tk.Tk):
         self.cbPerfiles.set('')
         self.cbStatus.set('')
         self.deactUser()
-    
-    def actUser(self):        
+
+    def actUser(self):
         self.txNombreUsuario.config(state="normal")
         self.txAPaterno.config(state="normal")
         self.txAMaterno.config(state="normal")
@@ -309,7 +296,7 @@ class AppUsers(tk.Tk):
         self.cbPerfiles.config(state="readonly")
         self.cbStatus.config(state="readonly")
 
-    def deactUser(self):        
+    def deactUser(self):
         self.txNombreUsuario.config(state="disabled")
         self.txAPaterno.config(state="disabled")
         self.txAMaterno.config(state="disabled")
@@ -318,9 +305,15 @@ class AppUsers(tk.Tk):
         self.txContrasena.config(state="disabled")
         self.cbPerfiles.config(state="disabled")
         self.cbStatus.config(state="disabled")
-
         
-    # Ventana de errores
+    def mostrarProximoID(self):
+        usuario_func = UsuariosFunc()
+        proximo_id = usuario_func.getUltimoId() + 1
+        self.txIdUsuario.config(state="normal")
+        self.txIdUsuario.delete(0, END)
+        self.txIdUsuario.insert(0, proximo_id)
+        self.txIdUsuario.config(state="disabled")
+
     def handle_error_window(self, funct=""):
         def warnings():
             print(f"Error, {funct}")
@@ -334,5 +327,7 @@ class AppUsers(tk.Tk):
 
 
 if __name__ == "__main__":
-    usuarios = AppUsers("andre@gmail.com", "Administrador")
-    usuarios.mainloop()
+    root = tk.Tk()
+    usuarios = AppUsers(root, "andre@gmail.com", "Administrador")
+    usuarios.grid(row=0, column=0, padx=10, pady=10)
+    root.mainloop()
