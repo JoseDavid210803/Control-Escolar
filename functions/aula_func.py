@@ -84,7 +84,8 @@ class AulasFunc():
     def getListaAulas(self):
         mostrar_aulas = "SELECT * FROM aula"
         lista_aulas = []
-        lista_aulas = self.cursor.fetchall(mostrar_aulas)
+        self.cursor.execute(mostrar_aulas)
+        lista_aulas = self.cursor.fetchall()
 
         # Se regresa como matriz de aulas [m][n] donde 
             # m = aula registrados
