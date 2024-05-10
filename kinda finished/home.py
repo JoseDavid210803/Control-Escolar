@@ -1576,5 +1576,5 @@ from planeacion3 import *
 
 
 if __name__ == "__main__":
-    home = AppHome("maestro@gmail.com", "Maestro")
+    home = AppHome("ejemplo@gmail.com", "Administrador")
     home.mainloop()

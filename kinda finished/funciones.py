@@ -224,33 +224,33 @@ def getListaUsuariosMaestros():
 
 # Funciones alumnos -------------------------------------------------------------------------------------------------
 # Creación de nuevo alumno, se usará como "Guardar" en el programa
-def nuevoAlumno(nombre_carrera, id_grupo, id_usuario, fecha_nacimiento):
+def nuevoAlumno(nombre_carrera, id_usuario, fecha_nacimiento):
     agregar_alumno = ("""
     INSERT INTO 
         alumnos 
             (nombre_carrera, id_grupo, id_usuario, fecha_nacimiento) 
     VALUES 
-        (%s, %s, %s, %s)
+        (%s, NULL, %s, %s)
     """)
-    values = (nombre_carrera, id_grupo, id_usuario, fecha_nacimiento)
+    values = (nombre_carrera, id_usuario, fecha_nacimiento)
     cursor.execute(agregar_alumno, values)
     connection.commit()
 
 # Editar alumno
-def editarAlumno(id_alumno, nombre_carrera, id_grupo, id_usuario, fecha_nacimiento):
+def editarAlumno(id_alumno, nombre_carrera, id_usuario, fecha_nacimiento):
     fecha_str = fecha_nacimiento.strftime("%Y-%m-%d")
     editar_alumno = ("""
         UPDATE
             alumnos
         SET
             nombre_carrera = %s, 
-            id_grupo = %s, 
+            id_grupo = NULL, 
             id_usuario = %s, 
             fecha_nacimiento = %s
         WHERE
             id_alumno = %s
     """)
-    values = (nombre_carrera, id_grupo, id_usuario, fecha_str, id_alumno)
+    values = (nombre_carrera, id_usuario, fecha_str, id_alumno)
     cursor.execute(editar_alumno, values)
     connection.commit()
 
@@ -738,34 +738,6 @@ def getUltimoIdGrupos():
 if __name__ == "__main__":
     print("Executing...\n")
     
-    #verificar_login(correo="ejemplo@gmail.com", contrasena="Pw123")
-    #nuevoUsuario("Ramiro", "Lupercio", "Coronel", "ramiro@gmail.com", "Contrasena123$", "Maestro", "Activo")
-    #print(buscarIdUsuario(3))
-    #print("Usuarios\n", getListaUsuarios())
-    #print("Alumnos\n",getListaUsuariosAlumnos())
-    #print("Maestros\n",getListaUsuariosMaestros())
-    #print(getListaAlumnos())
-    #print(buscarIdAlumno(1))
-    #print(getListaMaestros())
-    #print(buscarIdMaestro(1))
-    #nuevaCarrera("Ingeniería Informática", 9)
-    #editarCarrera(0, "Ingeniería en Computación", 9)
-    #print(buscarIdCarrera(0))
-    #print(getListaCarreras())
-    #editarMateria(1, "Programación Orientada a Objetos", "9:00:00", "10:50:00", "Maestro García Gómez", "LC05", 8, 3, "Ingeniería Informática")
-    #editarMateria(4, "Ingeniería de Software", "11:00:00", "12:50:00", "Maestro García Gómez", "LC01", 8, 6, "Ingeniería en Computación")
-    #nuevaMateria("Ingeniería de Software", "11:00", "12:50", "Maestro García Gómez", 8, 6, "Ingeniería en Computación")
-    #print(getListaMaterias())
-    #nuevaAula("LC05", "DUCT2")
-    #print(getListaAulas())
-    #editarUsuario(6, "Edgar", "Zepeda", "Urzúa", "edgar@gmail.com", "Pw123", "Alumno", "Activo")
-    #nuevoUsuario("Jovita", "Pérez", "Solís", "jovita@gmail.com", "Jovis123$", "Maestro", "Activo")
-    #print(getCarreraPorCorreo("andre@gmail.com"))
-        # n = atributos ([0]=id  [1]=nombre  [2]=paterno  [3]=materno  [4]=correo  [5]=contraseña  [6]=perfil  [7]=status )
-    #print(getMateriasDeCarrera("Ingeniería Informática"))
-    print(buscarIdUsuario(4))
-
-    print(buscarCorreoUsuario("ejemplo@gmail.com"))
 
     print("\nFinishing...")
     

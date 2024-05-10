@@ -1,10 +1,9 @@
 import tkinter as tk
-from tkinter import ttk, END, messagebox
+from tkinter import ttk, messagebox
 import pandas as pd
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
-import seaborn as sns
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from funciones import *
 import os

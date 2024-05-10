@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-05-2024 a las 13:51:57
+-- Tiempo de generación: 10-05-2024 a las 15:15:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -40,11 +40,11 @@ CREATE TABLE `alumnos` (
 --
 
 INSERT INTO `alumnos` (`id_alumno`, `nombre_carrera`, `id_grupo`, `id_usuario`, `fecha_nacimiento`) VALUES
-(1, 'Ingeniería en Computación', 1, 2, '2001-02-03'),
-(2, 'Ingeniería Informática', 1, 4, '2006-07-06'),
-(3, 'Ingeniería en Computación', 1, 6, '2000-11-15'),
-(4, '', 0, 9, '0000-00-00'),
-(5, 'Ingeniería Informática', 1, 10, '2004-12-22');
+(1, 'Ingeniería en Computación', NULL, 2, '2001-02-03'),
+(2, 'Ingeniería Informática', NULL, 4, '2006-07-06'),
+(3, 'Ingeniería en Computación', NULL, 6, '2000-11-15'),
+(4, 'Ingeniería en Computación', NULL, 9, '2024-05-10'),
+(5, 'Ingeniería Informática', NULL, 10, '2004-12-22');
 
 -- --------------------------------------------------------
 
@@ -67,7 +67,8 @@ INSERT INTO `aula` (`id_aula`, `nombre`, `edificio`, `nombre_completo`) VALUES
 (1, 'LC01', 'DUCT1', 'DUCT1-LC01'),
 (2, 'LC05', 'DUCT2', 'DUCT2-LC05'),
 (3, 'A005', 'DEDX', 'DEDX-A005'),
-(4, 'A008', 'DEDX', 'DEDX-A008');
+(4, 'A008', 'DEDX', 'DEDX-A008'),
+(5, 'A018', 'DEDV', 'DEDV-A018');
 
 -- --------------------------------------------------------
 
@@ -88,7 +89,8 @@ CREATE TABLE `carrera` (
 INSERT INTO `carrera` (`id_carrera`, `nombre`, `semestre`) VALUES
 (1, 'Ingeniería en Computación', '10'),
 (2, 'Ingeniería Informática', '9'),
-(3, 'Ingeniería Civíl', '8');
+(3, 'Ingeniería Civíl', '8'),
+(4, 'Licenciatura en Física', '10');
 
 -- --------------------------------------------------------
 
@@ -163,7 +165,8 @@ INSERT INTO `materias` (`id_materia`, `nombre`, `horario_entrada`, `horario_sali
 (1, 'Programación Orientada a Objetos', '09:00:00', '10:50:00', 'Miércoles', 'Maestro García Gómez', 'LC05-DUCT2', 8, '3', 'Ingeniería Informática'),
 (4, 'Ingeniería de Software', '11:00:00', '12:50:00', 'Miércoles', 'Maestro García Gómez', 'LC01-DUCT1', 8, '6', 'Ingeniería en Computación'),
 (6, 'Estructura de Datos', '09:00:00', '10:50:00', 'Lunes', 'Jovita Pérez Solís', 'A005 DEDX', 6, '3', 'Ingeniería Informática'),
-(7, 'Bases de Datos', '07:00:00', '08:50:00', 'Martes', 'Ramiro Lupercio Coronel', 'LC01-DUCT1', 6, '2', 'Ingeniería Informática');
+(7, 'Bases de Datos', '07:00:00', '08:50:00', 'Martes', 'Ramiro Lupercio Coronel', 'LC01-DUCT1', 6, '2', 'Ingeniería Informática'),
+(8, 'Física I', '07:00:00', '10:50:00', 'Jueves', 'Fernanda Solórzano Maldonado', 'A018-DEDV', 8, '1', 'Licenciatura en Física');
 
 -- --------------------------------------------------------
 
@@ -272,13 +275,13 @@ ALTER TABLE `alumnos`
 -- AUTO_INCREMENT de la tabla `aula`
 --
 ALTER TABLE `aula`
-  MODIFY `id_aula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_aula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `carrera`
 --
 ALTER TABLE `carrera`
-  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `grupos`
@@ -296,7 +299,7 @@ ALTER TABLE `maestros`
 -- AUTO_INCREMENT de la tabla `materias`
 --
 ALTER TABLE `materias`
-  MODIFY `id_materia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_materia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
